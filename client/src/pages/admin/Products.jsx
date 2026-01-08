@@ -33,7 +33,7 @@ const Products = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get('/api/admin/products');
+      const { data } = await axios.get('/admin/products');
       setProducts(data.data.products);
     } catch (error) {
       setError('Failed to fetch products');
@@ -63,7 +63,7 @@ const Products = () => {
     files.forEach(file => formData.append('images', file));
 
     try {
-      const { data } = await axios.post('/api/admin/upload', formData, {
+      const { data } = await axios.post('/admin/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setFormData(prev => ({
@@ -80,10 +80,10 @@ const Products = () => {
     e.preventDefault();
     try {
       if (editingProduct) {
-        await axios.put(`/api/admin/products/${editingProduct._id}`, formData);
+        await axios.put(`/admin/products/${editingProduct._id}`, formData);
         toast.success('Product updated successfully');
       } else {
-        await axios.post('/api/admin/products', formData);
+        await axios.post('/admin/products', formData);
         toast.success('Product created successfully');
       }
       setIsModalOpen(false);
@@ -119,7 +119,7 @@ const Products = () => {
     }
 
     try {
-      await axios.delete(`/api/admin/products/${productId}`);
+      await axios.delete(`/admin/products/${productId}`);
       toast.success('Product deleted successfully');
       fetchProducts();
     } catch (error) {

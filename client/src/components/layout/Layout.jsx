@@ -8,12 +8,12 @@ import { useTheme } from '../../context/ThemeContext';
 
 const Layout = () => {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
-  const { itemCount } = useCart();
+  const { itemCount, clearLocal } = useCart();
   const { darkMode, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
+    logout(clearLocal);
     navigate('/');
   };
 

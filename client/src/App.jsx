@@ -31,12 +31,12 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="products/:id" element={<ProductDetails />} />
-                <Route path="cart" element={<Cart />} />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
 
                 {/* Protected Routes */}
                 <Route element={<ProtectedRoute />}>
+                  <Route path="cart" element={<Cart />} />
                   <Route path="checkout" element={<Checkout />} />
                   <Route path="orders" element={<Orders />} />
                 </Route>

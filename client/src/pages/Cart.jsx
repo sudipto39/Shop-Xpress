@@ -48,6 +48,9 @@ const Cart = () => {
                   src={item.product.images[0]}
                   alt={item.product.name}
                   className="w-24 h-24 object-cover rounded"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/96x96/f3f4f6/6b7280?text=No+Image';
+                  }}
                 />
 
                 {/* Product Details */}

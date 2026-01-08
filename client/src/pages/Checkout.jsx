@@ -52,7 +52,7 @@ const Checkout = () => {
 
     try {
       // Create order in our backend
-      const { data: orderData } = await axios.post('/api/orders', {
+      const { data: orderData } = await axios.post('/orders', {
         items: cart.map(item => ({
           product: item.product._id,
           quantity: item.quantity,
@@ -82,7 +82,7 @@ const Checkout = () => {
             }
 
             // Verify payment with our backend
-            await axios.post(`/api/orders/${orderData.data.orderId}/verify`, {
+            await axios.post(`/orders/${orderData.data.orderId}/verify`, {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
               razorpay_signature: response.razorpay_signature

@@ -28,8 +28,8 @@ const Home = () => {
       if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
       if (filters.search) params.append('search', filters.search);
 
-      const { data } = await axios.get(`/api/products?${params.toString()}`);
-      setProducts(data.data.products);
+      const { data } = await axios.get(`/products?${params.toString()}`);
+      setProducts(data.data);
     } catch (error) {
       setError('Failed to fetch products');
       console.error('Error fetching products:', error);
@@ -148,6 +148,9 @@ const Home = () => {
                   src={product.images[0]}
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x400/f3f4f6/6b7280?text=No+Image';
+                  }}
                 />
               </div>
               <div className="p-4">

@@ -40,7 +40,7 @@ const Orders = () => {
       if (filters.startDate) params.append('startDate', filters.startDate);
       if (filters.endDate) params.append('endDate', filters.endDate);
 
-      const { data } = await axios.get(`/api/admin/orders?${params.toString()}`);
+      const { data } = await axios.get(`/admin/orders?${params.toString()}`);
       setOrders(data.data.orders);
     } catch (error) {
       setError('Failed to fetch orders');
@@ -57,7 +57,7 @@ const Orders = () => {
 
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
-      await axios.put(`/api/admin/orders/${orderId}/status`, {
+      await axios.put(`/admin/orders/${orderId}/status`, {
         status: newStatus
       });
       toast.success('Order status updated successfully');

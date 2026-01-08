@@ -5,14 +5,10 @@ export const SHOE_SIZES = [
 ];
 
 export const SHOE_CATEGORIES = [
-  { value: 'running', label: 'Running' },
-  { value: 'basketball', label: 'Basketball' },
   { value: 'casual', label: 'Casual' },
   { value: 'formal', label: 'Formal' },
   { value: 'sports', label: 'Sports' },
-  { value: 'training', label: 'Training' },
-  { value: 'walking', label: 'Walking' },
-  { value: 'lifestyle', label: 'Lifestyle' }
+  { value: 'boots', label: 'Boots' }
 ];
 
 export const ORDER_STATUS = [

@@ -15,6 +15,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
           Authorization: `Bearer ${token}`
         }
       };
-      const { data } = await axios.get('/api/auth/profile', config);
+      const { data } = await axios.get('/auth/profile', config);
       setUser(data.data);
     } catch (error) {
       localStorage.removeItem('token');
@@ -43,9 +44,9 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const { data } = await axios.post('/api/auth/register', userData);
-      localStorage.setItem('token', data.data.token);
-      setUser(data.data);
+      const { data } = await axios.post('/auth/signup', userData);
+      localStorage.setItem('token', data.token);
+      setUser(data.data.user);
       toast.success('Registration successful!');
       return true;
     } catch (error) {
@@ -56,9 +57,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const { data } = await axios.post('/api/auth/login', credentials);
-      localStorage.setItem('token', data.data.token);
-      setUser(data.data);
+      const { data } = await axios.post('/auth/login', credentials);
+      localStorage.setItem('token', data.token);
+      setUser(data.data.user);
       toast.success('Login successful!');
       return true;
     } catch (error) {
@@ -67,9 +68,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = (clearCartCallback) => {
     localStorage.removeItem('token');
     setUser(null);
+    // Clear cart data if callback provided
+    if (clearCartCallback && typeof clearCartCallback === 'function') {
+      clearCartCallback();
+    }
     toast.success('Logged out successfully');
   };
 
@@ -80,7 +85,8 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     isAuthenticated: !!user,
-    isAdmin: user?.isAdmin
+    isAdmin: user?.role === 'admin',
+    token
   };
 
   return (

@@ -12,7 +12,7 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const { data } = await axios.get('/api/admin/users');
+      const { data } = await axios.get('/admin/users');
       setUsers(data.data);
     } catch (error) {
       console.error('Failed to fetch users:', error);
@@ -24,7 +24,7 @@ const Users = () => {
 
   const toggleAdmin = async (userId, isAdmin) => {
     try {
-      await axios.patch(`/api/admin/users/${userId}`, {
+      await axios.patch(`/admin/users/${userId}`, {
         isAdmin: !isAdmin
       });
       await fetchUsers();

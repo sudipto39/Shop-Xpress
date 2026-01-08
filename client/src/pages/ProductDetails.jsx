@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import axios from '../utils/axios';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { SHOE_SIZES } from '../utils/config';
 import toast from 'react-hot-toast';
 
@@ -10,6 +11,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { isAuthenticated } = useAuth();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,7 +25,7 @@ const ProductDetails = () => {
   const fetchProduct = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/products/${id}`);
+      const { data } = await axios.get(`/products/${id}`);
       setProduct(data.data);
       setSelectedImage(0);
     } catch (error) {
@@ -35,6 +37,11 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
     if (!selectedSize) {
       toast.error('Please select a size');
       return;
@@ -81,6 +88,9 @@ const ProductDetails = () => {
             src={product.images[selectedImage]}
             alt={product.name}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.src = 'https://via.placeholder.com/800x800/f3f4f6/6b7280?text=No+Image';
+            }}
           />
         </div>
         <div className="grid grid-cols-4 gap-4">
@@ -98,6 +108,9 @@ const ProductDetails = () => {
                 src={image}
                 alt={`${product.name} view ${index + 1}`}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.src = 'https://via.placeholder.com/200x200/f3f4f6/6b7280?text=No+Image';
+                }}
               />
             </button>
           ))}

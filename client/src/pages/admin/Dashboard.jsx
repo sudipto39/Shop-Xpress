@@ -26,7 +26,7 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get('/api/admin/dashboard');
+      const { data } = await axios.get('/admin/dashboard');
       setMetrics(data.data);
     } catch (error) {
       setError('Failed to fetch dashboard data');
