@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MagnifyingGlassIcon, FunnelIcon } from '@heroicons/react/24/outline';
-import axios from '../utils/axios';
+import api from '../utils/axios';
 import { SHOE_CATEGORIES } from '../utils/config';
 
 const Home = () => {
