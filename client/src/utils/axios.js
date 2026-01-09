@@ -1,100 +1,98 @@
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import axios from "axios";
+import toast from "react-hot-toast";
 
+// 🔴 Base URL (FAIL FAST if not defined)
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+if (!BASE_URL) {
+  throw new Error("VITE_API_URL is not defined. Check your environment variables.");
+}
+
+// Axios instance
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/v1` : 'http://localhost:5000/api/v1',
+  baseURL: `${BASE_URL}/api/v1`,
   headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json",
   },
-  timeout: 10000, // 10 seconds timeout
-  withCredentials: true
+  timeout: 10000, // 10 seconds
 });
 
-// Request interceptor for adding auth token
+// =======================
+// REQUEST INTERCEPTOR
+// =======================
 instance.interceptors.request.use(
   (config) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    } catch (error) {
-      console.error('Request interceptor error:', error);
-      return Promise.reject(error);
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+
+    return config;
   },
   (error) => {
-    console.error('Request interceptor error:', error);
+    console.error("Request error:", error);
     return Promise.reject(error);
   }
 );
 
-// Response interceptor for handling errors
+// =======================
+// RESPONSE INTERCEPTOR
+// =======================
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('API Error:', error);
-
-    // Network error
+    // Network / server unreachable
     if (!error.response) {
-      toast.error('Network error. Please check your connection and try again.');
-      return Promise.reject(new Error('Network error'));
+      toast.error("Network error. Please check your internet connection.");
+      return Promise.reject(error);
     }
 
-    // Timeout error
-    if (error.code === 'ECONNABORTED') {
-      toast.error('Request timed out. Please try again.');
-      return Promise.reject(new Error('Request timeout'));
-    }
+    const { status, data } = error.response;
 
-    // Server errors
-    switch (error.response.status) {
+    switch (status) {
       case 400:
-        if (error.response.data.errors) {
-          // Handle validation errors
-          Object.values(error.response.data.errors).forEach(err => {
-            toast.error(err);
-          });
-        } else {
-          toast.error(error.response.data.message || 'Invalid request');
-        }
+        toast.error(data?.message || "Bad request");
         break;
+
       case 401:
-        toast.error(error.response.data.message || 'Session expired. Please login again.');
-        localStorage.removeItem('token');
-        if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
-          window.location.href = '/login';
+        toast.error(data?.message || "Session expired. Please login again.");
+        localStorage.removeItem("token");
+        if (!["/login", "/register"].includes(window.location.pathname)) {
+          window.location.href = "/login";
         }
         break;
+
       case 403:
-        toast.error(error.response.data.message || 'Access denied');
+        toast.error(data?.message || "You are not allowed to perform this action.");
         break;
+
       case 404:
-        toast.error(error.response.data.message || 'Resource not found');
+        toast.error(data?.message || "Requested resource not found.");
         break;
+
       case 409:
-        toast.error(error.response.data.message || 'Conflict - Resource already exists');
+        toast.error(data?.message || "Conflict occurred.");
         break;
+
       case 422:
-        const validationErrors = error.response.data.errors;
-        if (validationErrors) {
-          Object.values(validationErrors).forEach(err => {
-            toast.error(err);
-          });
+        if (data?.errors) {
+          Object.values(data.errors).forEach((err) => toast.error(err));
         } else {
-          toast.error(error.response.data.message || 'Validation error');
+          toast.error("Validation error.");
         }
         break;
+
       case 500:
-        toast.error('Server error. Please try again later.');
+        toast.error("Internal server error. Please try again later.");
         break;
+
       default:
-        toast.error('Something went wrong. Please try again.');
+        toast.error("Something went wrong. Please try again.");
     }
 
     return Promise.reject(error);
   }
 );
 
-export default instance; 
+export default instance;
