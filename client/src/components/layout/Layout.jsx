@@ -5,7 +5,7 @@ import { ShoppingBagIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useTheme } from '../../context/ThemeContext';
-import { safeCapitalize } from '../../utils/helpers';
+import { safeCapitalize } from '../../utils/stringHelpers';
 
 const Layout = () => {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
