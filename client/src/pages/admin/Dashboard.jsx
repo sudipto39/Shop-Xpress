@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   CurrencyDollarIcon,
   ShoppingBagIcon,
   UserGroupIcon,
-  ClockIcon
-} from '@heroicons/react/24/outline';
-import axios from '../../utils/axios';
+  ClockIcon,
+} from "@heroicons/react/24/outline";
+import axios from "../../utils/axios";
 
 const Dashboard = () => {
   const [metrics, setMetrics] = useState({
@@ -14,8 +14,9 @@ const Dashboard = () => {
     totalUsers: 0,
     pendingOrders: 0,
     recentOrders: [],
-    topProducts: []
+    topProducts: [],
   });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -26,16 +27,33 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get('/admin/dashboard');
-      setMetrics(data.data);
-    } catch (error) {
-      setError('Failed to fetch dashboard data');
-      console.error('Error fetching dashboard data:', error);
+      setError(null);
+
+      const { data } = await axios.get("/admin/dashboard");
+
+      const safeData = data?.data || {};
+
+      setMetrics({
+        totalRevenue: Number(safeData.totalRevenue || 0),
+        totalOrders: Number(safeData.totalOrders || 0),
+        totalUsers: Number(safeData.totalUsers || 0),
+        pendingOrders: Number(safeData.pendingOrders || 0),
+        recentOrders: Array.isArray(safeData.recentOrders)
+          ? safeData.recentOrders
+          : [],
+        topProducts: Array.isArray(safeData.topProducts)
+          ? safeData.topProducts
+          : [],
+      });
+    } catch (err) {
+      console.error("Error fetching dashboard data:", err);
+      setError("Failed to fetch dashboard data");
     } finally {
       setLoading(false);
     }
   };
 
+  // ================= STATES =================
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -48,218 +66,177 @@ const Dashboard = () => {
     return (
       <div className="text-center py-12">
         <p className="text-red-600 dark:text-red-400">{error}</p>
-        <button
-          onClick={fetchDashboardData}
-          className="mt-4 btn btn-primary"
-        >
+        <button onClick={fetchDashboardData} className="mt-4 btn btn-primary">
           Try Again
         </button>
       </div>
     );
   }
 
+  // ================= UI =================
   return (
     <div className="space-y-8">
-      {/* Metrics Grid */}
+      {/* Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="card p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-full bg-green-100 dark:bg-green-800">
-              <CurrencyDollarIcon className="h-8 w-8 text-green-600 dark:text-green-200" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Total Revenue
-              </p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                ${metrics.totalRevenue.toFixed(2)}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="card p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-800">
-              <ShoppingBagIcon className="h-8 w-8 text-blue-600 dark:text-blue-200" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Total Orders
-              </p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {metrics.totalOrders}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="card p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-800">
-              <UserGroupIcon className="h-8 w-8 text-purple-600 dark:text-purple-200" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Total Users
-              </p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {metrics.totalUsers}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="card p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-800">
-              <ClockIcon className="h-8 w-8 text-yellow-600 dark:text-yellow-200" />
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Pending Orders
-              </p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {metrics.pendingOrders}
-              </p>
-            </div>
-          </div>
-        </div>
+        <MetricCard
+          title="Total Revenue"
+          value={`$${metrics.totalRevenue.toFixed(2)}`}
+          icon={CurrencyDollarIcon}
+          color="green"
+        />
+        <MetricCard
+          title="Total Orders"
+          value={metrics.totalOrders}
+          icon={ShoppingBagIcon}
+          color="blue"
+        />
+        <MetricCard
+          title="Total Users"
+          value={metrics.totalUsers}
+          icon={UserGroupIcon}
+          color="purple"
+        />
+        <MetricCard
+          title="Pending Orders"
+          value={metrics.pendingOrders}
+          icon={ClockIcon}
+          color="yellow"
+        />
       </div>
 
       {/* Recent Orders */}
-      <div className="card">
-        <div className="p-6">
-          <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-            Recent Orders
-          </h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 dark:bg-gray-800">
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Order ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Customer
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Amount
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {metrics.recentOrders.map((order) => (
-                <tr key={order._id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                    {order._id}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {order.user.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    ${order.totalAmount.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        order.status === 'completed'
-                          ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
-                          : order.status === 'pending'
-                          ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100'
-                          : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
-                      }`}
-                    >
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </td>
+      <TableCard title="Recent Orders">
+        <table className="w-full">
+          <thead>
+            <TableHeader
+              headers={["Order ID", "Customer", "Amount", "Status", "Date"]}
+            />
+          </thead>
+          <tbody>
+            {metrics.recentOrders.map((order) => {
+              const amount = Number(order?.totalAmount || 0);
+
+              return (
+                <tr key={order?._id}>
+                  <Td>{order?._id || "-"}</Td>
+                  <Td>{order?.user?.name || "Unknown"}</Td>
+                  <Td>${amount.toFixed(2)}</Td>
+                  <Td>
+                    <StatusBadge status={order?.status} />
+                  </Td>
+                  <Td>
+                    {order?.createdAt
+                      ? new Date(order.createdAt).toLocaleDateString()
+                      : "-"}
+                  </Td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+              );
+            })}
+          </tbody>
+        </table>
+      </TableCard>
 
       {/* Top Products */}
-      <div className="card">
-        <div className="p-6">
-          <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-            Top Selling Products
-          </h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 dark:bg-gray-800">
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Product
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Category
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Units Sold
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Revenue
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {metrics.topProducts.map((product) => (
-                <tr key={product._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
+      <TableCard title="Top Selling Products">
+        <table className="w-full">
+          <thead>
+            <TableHeader
+              headers={[
+                "Product",
+                "Category",
+                "Price",
+                "Units Sold",
+                "Revenue",
+              ]}
+            />
+          </thead>
+          <tbody>
+            {metrics.topProducts.map((product) => {
+              const price = Number(product?.price || 0);
+              const sold = Number(product?.unitsSold || 0);
+
+              return (
+                <tr key={product?._id}>
+                  <Td>
                     <div className="flex items-center">
-                      <div className="h-10 w-10 flex-shrink-0">
-                        <img
-                          className="h-10 w-10 rounded-full object-cover"
-                          src={product.images[0]}
-                          alt={product.name}
-                        />
-                      </div>
+                      <img
+                        src={product?.images?.[0] || "/placeholder.png"}
+                        alt={product?.name || "Product"}
+                        className="h-10 w-10 rounded-full object-cover"
+                      />
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                          {product.name}
+                        <div className="font-medium">
+                          {product?.name || "Unnamed"}
                         </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {product.brand}
+                        <div className="text-sm text-gray-500">
+                          {product?.brand || "-"}
                         </div>
                       </div>
                     </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {product.category}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    ${product.price.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {product.unitsSold}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    ${(product.price * product.unitsSold).toFixed(2)}
-                  </td>
+                  </Td>
+                  <Td>{product?.category || "-"}</Td>
+                  <Td>${price.toFixed(2)}</Td>
+                  <Td>{sold}</Td>
+                  <Td>${(price * sold).toFixed(2)}</Td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+              );
+            })}
+          </tbody>
+        </table>
+      </TableCard>
     </div>
   );
 };
 
-export default Dashboard; 
+/* ================= SMALL COMPONENTS ================= */
+
+const MetricCard = ({ title, value, icon: Icon, color }) => (
+  <div className="card p-6">
+    <div className="flex items-center">
+      <div className={`p-3 rounded-full bg-${color}-100 dark:bg-${color}-800`}>
+        <Icon className={`h-8 w-8 text-${color}-600 dark:text-${color}-200`} />
+      </div>
+      <div className="ml-4">
+        <p className="text-sm text-gray-500">{title}</p>
+        <p className="text-2xl font-bold">{value}</p>
+      </div>
+    </div>
+  </div>
+);
+
+const TableCard = ({ title, children }) => (
+  <div className="card">
+    <div className="p-6">
+      <h2 className="text-lg font-medium">{title}</h2>
+    </div>
+    <div className="overflow-x-auto">{children}</div>
+  </div>
+);
+
+const TableHeader = ({ headers }) => (
+  <tr className="bg-gray-50 dark:bg-gray-800">
+    {headers.map((h) => (
+      <th key={h} className="px-6 py-3 text-left text-xs uppercase">
+        {h}
+      </th>
+    ))}
+  </tr>
+);
+
+const Td = ({ children }) => (
+  <td className="px-6 py-4 text-sm text-gray-500">{children}</td>
+);
+
+const StatusBadge = ({ status }) => {
+  const base =
+    "inline-flex px-2 py-1 text-xs font-semibold rounded-full";
+
+  if (status === "completed")
+    return <span className={`${base} bg-green-100 text-green-800`}>Completed</span>;
+  if (status === "pending")
+    return <span className={`${base} bg-yellow-100 text-yellow-800`}>Pending</span>;
+
+  return <span className={`${base} bg-red-100 text-red-800`}>Other</span>;
+};
+
+export default Dashboard;
