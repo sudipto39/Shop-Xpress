@@ -19,24 +19,26 @@ const Home = () => {
     fetchProducts();
   }, [filters]);
 
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filters.category) params.append('category', filters.category);
-      if (filters.minPrice) params.append('minPrice', filters.minPrice);
-      if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
-      if (filters.search) params.append('search', filters.search);
 
-      const { data } = await axios.get(`/products?${params.toString()}`);
-      setProducts(data.data);
-    } catch (error) {
-      setError('Failed to fetch products');
-      console.error('Error fetching products:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const fetchProducts = async () => {
+  try {
+    setLoading(true);
+
+    const params = new URLSearchParams();
+    if (filters.category) params.append("category", filters.category);
+    if (filters.minPrice) params.append("minPrice", filters.minPrice);
+    if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
+    if (filters.search) params.append("search", filters.search);
+
+    const { data } = await api.get(`/products?${params.toString()}`); 
+    setProducts(data.data); 
+  } catch (error) {
+    setError("Failed to fetch products");
+    console.error("Error fetching products:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
