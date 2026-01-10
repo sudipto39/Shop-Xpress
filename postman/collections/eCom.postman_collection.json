@@ -1,0 +1,636 @@
+{
+  "info": {
+    "_postman_id": "ca0f7de3-7440-4515-8423-9a40363b01b3",
+    "name": "eCom",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "myOrders",
+          "id": "92162cbd-6e8b-425a-b493-22c5387dfb94",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/orders/myOrders",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "orders",
+                "myOrders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "order",
+          "id": "b844a9be-bd56-4ba6-b7d4-2325ef4fca7e",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/orders/order",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "orders",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "pay",
+          "id": "2df24948-329b-4c38-b904-7fe56ea7d860",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/orders/:id/pay",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "orders",
+                ":id",
+                "pay"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "46da4067-9953-47dc-81ef-8d8434f264e1"
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "addToCart",
+          "id": "4756888b-68e9-4d3f-b131-6607cba377c7",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/cart/add",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "cart",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getCart",
+          "id": "805cc4c4-03bf-4a2e-967c-cc64f56c7cd4",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/cart/",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "cart",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateCart",
+          "id": "81b96703-6afc-4274-979c-0008d63f8626",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/cart/update",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "cart",
+                "update"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "removeFromCart",
+          "id": "84adedbc-7b04-4a8d-8cbd-4e72b490f269",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/cart/remove",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "cart",
+                "remove"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "clearCart",
+          "id": "65cb06db-ccd1-484b-8cb5-b2fa76bf6387",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/cart/clear",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "cart",
+                "clear"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "333d63d6-176b-4f99-bbd8-a9d61414b86d"
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "adminLogIn",
+          "id": "0f8bf8e3-e701-4995-98bf-afd7a47456c5",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/admin/login",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "admin",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllUsers",
+          "id": "5aa9da22-7536-4166-b377-9848c5a1d2bd",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/admin/users",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "admin",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateUserRole",
+          "id": "44754508-03d2-49c9-b74e-e07b7b721fc7",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/admin/users/:id/role",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "admin",
+                "users",
+                ":id",
+                "role"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteUser",
+          "id": "90ef092c-b2bb-48fd-89f6-b43fa15cdc72",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/admin/users/:id",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "admin",
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProduct",
+          "id": "5b417736-70fc-4622-b894-6317f69627e8",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/admin/products/:id",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "admin",
+                "products",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteProduct",
+          "id": "201ee761-e3e1-4380-bfe7-17dc7d2eb551",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/admin/products/:id",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "admin",
+                "products",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "79f0a18c-650e-41d4-881f-b93907e094d1"
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "signup",
+          "id": "ebd25998-8f9d-4235-a3f6-cae1c8fd7ffc",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/auth/signup",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "auth",
+                "signup"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "id": "b0646072-ab2a-4f16-a249-996a945dddf0",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/auth/login",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "profile",
+          "id": "777942f7-e309-4fa9-a959-cec3346a142d",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/profile",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "e0fcfb05-60c4-44a3-b65c-9ded83bed74d"
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "getAllProducts",
+          "id": "c38a358b-bd81-4bdd-8169-1cb69549fbca",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createProduct",
+          "id": "d5fc1d5e-226a-4731-8835-0a4206df1e22",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzM5MWQ5YmRkNDExNjE4ZWNjZjg1NCIsImlhdCI6MTc1MzI1MjAyOSwiZXhwIjoxNzUzMjU1MDI5fQ.4AkVOes2qBPWRduHJJiiI47IYysHPbg7o_8qTXLdCBY",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\r\n  {\r\n    \"name\": \"Urban Runner Sneakers\",\r\n    \"description\": \"Lightweight and breathable sneakers designed for daily wear and running.\",\r\n    \"price\": 3499,\r\n    \"images\": [\r\n      \"https://images.unsplash.com/photo-1600185365483-26d7a4cc7519\",\r\n      \"https://images.unsplash.com/photo-1542291026-7eec264c27ff\"\r\n    ],\r\n    \"brand\": \"RunFlex\",\r\n    \"category\": \"sports\",\r\n    \"sizes\": [\r\n      { \"size\": 7, \"stock\": 10 },\r\n      { \"size\": 8, \"stock\": 15 },\r\n      { \"size\": 9, \"stock\": 8 }\r\n    ],\r\n    \"color\": \"Black\",\r\n    \"featured\": true\r\n  },\r\n  {\r\n    \"name\": \"Classic Leather Formal Shoes\",\r\n    \"description\": \"Premium leather formal shoes perfect for office and business meetings.\",\r\n    \"price\": 4999,\r\n    \"images\": [\r\n      \"https://images.unsplash.com/photo-1618354691373-d851c5c3a990\"\r\n    ],\r\n    \"brand\": \"Elegance\",\r\n    \"category\": \"formal\",\r\n    \"sizes\": [\r\n      { \"size\": 8, \"stock\": 6 },\r\n      { \"size\": 9, \"stock\": 5 },\r\n      { \"size\": 10, \"stock\": 4 }\r\n    ],\r\n    \"color\": \"Brown\",\r\n    \"featured\": false\r\n  },\r\n  {\r\n    \"name\": \"Street Style Casual Shoes\",\r\n    \"description\": \"Trendy casual shoes with a comfortable sole for all-day wear.\",\r\n    \"price\": 2799,\r\n    \"images\": [\r\n      \"https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77\",\r\n      \"https://images.unsplash.com/photo-1584735175315-9d5df23860e6\"\r\n    ],\r\n    \"brand\": \"StreetWalk\",\r\n    \"category\": \"casual\",\r\n    \"sizes\": [\r\n      { \"size\": 6, \"stock\": 12 },\r\n      { \"size\": 7, \"stock\": 10 },\r\n      { \"size\": 8, \"stock\": 9 }\r\n    ],\r\n    \"color\": \"White\",\r\n    \"featured\": true\r\n  },\r\n  {\r\n    \"name\": \"Mountain Grip Boots\",\r\n    \"description\": \"Rugged boots designed for trekking and rough terrains.\",\r\n    \"price\": 6499,\r\n    \"images\": [\r\n      \"https://images.unsplash.com/photo-1603808033192-082d6919d3e1\"\r\n    ],\r\n    \"brand\": \"TrailMaster\",\r\n    \"category\": \"boots\",\r\n    \"sizes\": [\r\n      { \"size\": 8, \"stock\": 7 },\r\n      { \"size\": 9, \"stock\": 6 },\r\n      { \"size\": 10, \"stock\": 5 }\r\n    ],\r\n    \"color\": \"Dark Brown\",\r\n    \"featured\": false\r\n  },\r\n  {\r\n    \"name\": \"Pro Court Sports Shoes\",\r\n    \"description\": \"High-performance sports shoes with extra grip and cushioning.\",\r\n    \"price\": 3899,\r\n    \"images\": [\r\n      \"https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a\",\r\n      \"https://images.unsplash.com/photo-1514989940723-e8e51635b782\"\r\n    ],\r\n    \"brand\": \"CourtX\",\r\n    \"category\": \"sports\",\r\n    \"sizes\": [\r\n      { \"size\": 7, \"stock\": 14 },\r\n      { \"size\": 8, \"stock\": 11 },\r\n      { \"size\": 9, \"stock\": 10 }\r\n    ],\r\n    \"color\": \"Blue\",\r\n    \"featured\": true\r\n  }\r\n]\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/v1/products/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateProduct",
+          "id": "37ac58d3-9705-4b51-838f-fa78bec943b9",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/products/:id",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "products",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteProduct",
+          "id": "6b118fdd-5ef2-4dbc-83c6-4c0903b25fac",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/products/:id",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "products",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getProductbyId",
+          "id": "652e2358-2daa-445e-a18d-b35179bbe80a",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/products/:id",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "products",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "8e21adf1-6ec5-4afd-90f3-c53eef76b02b"
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "order",
+          "id": "321e27bf-52fe-4458-b722-3d09056f718c",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/payment/order",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "payment",
+                "order"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "signature",
+          "id": "cc4b8898-145b-45ef-bae4-7d1451441bf8",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/payment/signature",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "payment",
+                "signature"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "paymentDetails",
+          "id": "1f302426-1f16-4cba-8f9f-73c709673a0e",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/payment/payment/:id",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "payment",
+                "payment",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refund",
+          "id": "b1e6ea44-ac89-4174-b533-3f08c931ac47",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/payment/refund",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "payment",
+                "refund"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "frontendConfig",
+          "id": "54d5a286-1771-4485-b830-b97378522021",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/payment/frontend",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "payment",
+                "frontend"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "2656d5e2-2757-4b80-90d1-0a079f563c03"
+    }
+  ]
+}
