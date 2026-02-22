@@ -155,7 +155,7 @@ server/
 1. Clone the repository:
 	```bash
 	git clone <repository-url>
-	cd eCom
+ 
 	```
 
 2. Install backend dependencies:
@@ -213,6 +213,11 @@ RAZORPAY_KEY_SECRET=your_razorpay_key_secret
 - Backend: Deploy to Render, Railway, or similar Node.js hosting
 
 ---
+
+## Developer
+
+- Rajkrishna Das (Frontend)
+- Sudipto Gayen(Backend)
 
 ## License
 
