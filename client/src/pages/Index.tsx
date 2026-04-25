@@ -178,7 +178,7 @@ export default function Index() {
             <Alert variant="destructive" className="mb-8">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                Failed to load products. Please check your API connection and try again. (Railway free deploy tire has expired)
+                Failed to load products. AWS EC2 instance temporarily paused to optimize costs.
               </AlertDescription>
             </Alert>
           )}
